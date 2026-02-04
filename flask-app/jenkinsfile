@@ -1,0 +1,41 @@
+pipeline {
+    agent any 
+
+    environment {
+        AWS_REGION = "ap-south-1"
+        ECR_REPO = "376129844714.dkr.ecr.ap-south-1.amazonaws.com/selva"
+        IMAGE_TAG = "latest"
+    }
+
+    stages{
+        stage ("Checkout") {
+            steps {
+                git 'https:https://github.com/SelvaVignesh02/learning-purpose.git'
+            }
+        }
+
+        stage("login into ECR") {
+            steps {
+                sh '''
+                aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REPO
+                '''
+            }
+        }
+        stage("Docker Image Build") {
+            steps {
+                sh '''
+                docker build -t flask-app:$IMAGE_TAG .
+                docker tag flask-app:$IMAGE_TAG $ECR_REPO:$IMAGE_TAG
+                '''
+            }
+        }
+
+        stage("Push to ECR") {
+            steps {
+                sh '''
+                docker push $ECR_REPO:$IMAGE_TAG
+                '''
+            }
+        }
+    }
+}
