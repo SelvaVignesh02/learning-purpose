@@ -5,6 +5,8 @@ pipeline {
         AWS_REGION = "ap-south-1"
         ECR_REPO = "376129844714.dkr.ecr.ap-south-1.amazonaws.com/selva"
         IMAGE_TAG = "latest"
+        HOST_PORT = "5000"
+        CONTAINER_PPORT = "5000"
     }
 
         stages {
@@ -24,12 +26,10 @@ pipeline {
         }
         stage("Docker Image Build") {
             steps {
-                dir('flask-app') {
                 sh '''
                 docker build -t flask-app:$IMAGE_TAG .
                 docker tag flask-app:$IMAGE_TAG $ECR_REPO:$IMAGE_TAG
                 '''
-                }
             }
         }
 
@@ -37,6 +37,14 @@ pipeline {
             steps {
                 sh '''
                 docker push $ECR_REPO:$IMAGE_TAG
+                '''
+            }
+        }
+
+        stage("Running Docker container") {
+            steps {
+                sh '''
+                docker run -d -p $HOST_PORT:$CONTAINER_PORT flask-app
                 '''
             }
         }
