@@ -7,12 +7,15 @@ pipeline {
         IMAGE_TAG = "latest"
     }
 
-    stages{
-        stage ("Checkout") {
-            steps {
-                git 'https://github.com/SelvaVignesh02/learning-purpose.git'
+        stages {
+            stage('Checkout') {
+                steps {
+                    git branch: 'main',
+                        url: 'https://github.com/SelvaVignesh02/learning-purpose.git'
+                }
             }
         }
+
 
         stage("login into ECR") {
             steps {
