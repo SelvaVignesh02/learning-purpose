@@ -26,6 +26,7 @@ pipeline {
         }
         stage("Docker Image Build") {
             steps {
+                dir('flask-app') {
                 sh '''
                 docker build -t flask-app:$IMAGE_TAG .
                 docker tag flask-app:$IMAGE_TAG $ECR_REPO:$IMAGE_TAG
