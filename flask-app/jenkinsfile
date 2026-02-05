@@ -14,9 +14,7 @@ pipeline {
                         url: 'https://github.com/SelvaVignesh02/learning-purpose.git'
                 }
             }
-        }
-
-
+        
         stage("login into ECR") {
             steps {
                 sh '''
