@@ -10,7 +10,7 @@ pipeline {
     stages{
         stage ("Checkout") {
             steps {
-                git 'https:https://github.com/SelvaVignesh02/learning-purpose.git'
+                git 'https://github.com/SelvaVignesh02/learning-purpose.git'
             }
         }
 
