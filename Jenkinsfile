@@ -4,6 +4,11 @@ pipeline {
         maven 'M2'
     }
     stages {
+        stage('Clone') {
+            steps {
+                git 'https://github.com/rohinicbabu/DevOpsAddressBook.git'
+            }
+        }   
         stage('Build') {
             steps {
                 sh 'mvn clean package'
